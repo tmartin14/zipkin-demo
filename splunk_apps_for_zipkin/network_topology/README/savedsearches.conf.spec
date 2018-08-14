@@ -1,0 +1,23 @@
+# Declare properties here
+display.visualizations.custom.network_topology.network_topology.drilldown = <string>
+display.visualizations.custom.network_topology.network_topology.unfocusOpacity = <float>
+display.visualizations.custom.network_topology.network_topology.link1 = <string>
+display.visualizations.custom.network_topology.network_topology.link1Label = <string>
+display.visualizations.custom.network_topology.network_topology.link1Color = <string>
+display.visualizations.custom.network_topology.network_topology.link1Dashed = <string>
+display.visualizations.custom.network_topology.network_topology.link2 = <string>
+display.visualizations.custom.network_topology.network_topology.link2Label = <string>
+display.visualizations.custom.network_topology.network_topology.link2Color = <string>
+display.visualizations.custom.network_topology.network_topology.link2Dashed = <string>
+display.visualizations.custom.network_topology.network_topology.link3 = <string>
+display.visualizations.custom.network_topology.network_topology.link3Label = <string>
+display.visualizations.custom.network_topology.network_topology.link3Color = <string>
+display.visualizations.custom.network_topology.network_topology.link3Dashed = <string>
+display.visualizations.custom.network_topology.network_topology.link4 = <string>
+display.visualizations.custom.network_topology.network_topology.link4Label = <string>
+display.visualizations.custom.network_topology.network_topology.link4Color = <string>
+display.visualizations.custom.network_topology.network_topology.link4Dashed = <string>
+display.visualizations.custom.network_topology.network_topology.link5 = <string>
+display.visualizations.custom.network_topology.network_topology.link5Label = <string>
+display.visualizations.custom.network_topology.network_topology.link5Color = <string>
+display.visualizations.custom.network_topology.network_topology.link5Dashed = <string>

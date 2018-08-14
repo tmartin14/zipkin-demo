@@ -1,0 +1,54 @@
+<form class="splunk-formatter-section" section-label="General">
+    <splunk-control-group label="Use colors">
+        <splunk-radio-input name="{{VIZ_NAMESPACE}}.useColors" value="0">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </splunk-radio-input>
+    </splunk-control-group>
+    <splunk-control-group label="Color mode">
+        <splunk-select name="{{VIZ_NAMESPACE}}.colorMode" value="categorical">
+            <option value="categorical">Categorical</option>
+            <option value="sequencial">Sequential</option>
+        </splunk-radio-input>
+    </splunk-control-group>
+    <div>
+        <span style="display:block; margin: 15px 0px 15px 20px; font-size: 85%; color: #999;">
+            Sequential mode settings
+        </span>
+    </div>
+    <splunk-control-group label="Number of bins">
+        <splunk-select name="{{VIZ_NAMESPACE}}.numOfBins" value="6">
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+        </splunk-select>
+    </splunk-control-group>
+    <splunk-control-group label="Max color">
+        <splunk-color-picker name="{{VIZ_NAMESPACE}}.maxColor" value="#DA5C5C"></splunk-color-picker>
+    </splunk-control-group>
+    <splunk-control-group label="Min color">
+        <splunk-color-picker name="{{VIZ_NAMESPACE}}.minColor" value="#FFE8E8"></splunk-color-picker>
+    </splunk-control-group>
+</form>
+<form class="splunk-formatter-section" section-label="Time format">
+    <splunk-control-group label="Axis labels">
+        <splunk-select name="{{VIZ_NAMESPACE}}.axisTimeFormat" value="SECONDS">
+            <option value="DAYS">DD/MM/YYYY</option>
+            <option value="MINUTES">HH:MM</option>
+            <option value="SECONDS" selected>HH:MM:SS</option>
+            <option value="SUBSECONDS">HH:MM:SS ms</option>
+         </splunk-radio-input>
+    </splunk-control-group>
+    <splunk-control-group label="Tooltips">
+        <splunk-select name="{{VIZ_NAMESPACE}}.tooltipTimeFormat" value="SECONDS">
+            <option value="DAYS">DD/MM/YYYY</option>
+            <option value="MINUTES">HH:MM</option>
+            <option value="SECONDS" selected>HH:MM:SS</option>
+            <option value="SUBSECONDS">HH:MM:SS ms</option>
+        </splunk-radio-input>
+    </splunk-control-group>
+</form>

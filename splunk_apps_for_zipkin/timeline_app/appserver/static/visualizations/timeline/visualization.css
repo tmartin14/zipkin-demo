@@ -1,0 +1,46 @@
+.splunk-timeline .axis path,
+.splunk-timeline .axis line {
+  fill: none;
+  stroke: #d9dce0;
+  shape-rendering: crispEdges;
+}
+.splunk-timeline .axis text {
+  fill: #555;
+  font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, Helvetica;
+  font-size: 12px;
+  line-height: 16px;
+}
+.splunk-timeline .timeline-label {
+  fill: #555;
+  font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, Helvetica;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.splunk-timeline-tooltip .tooltip-inner {
+  font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, Helvetica;
+
+  z-index: 100;
+  opacity: 1;
+
+  border: 0px;
+  border-radius: 2px;
+
+  padding: 10px;
+
+  pointer-events: none;
+  background: #000000;
+  color: #ffffff;
+}
+
+.splunk-timeline.timeline-drilldown circle,
+.splunk-timeline.timeline-drilldown rect:not(.row-green-bar) {
+  cursor: pointer;
+}
+
+.splunk-timeline {
+  overflow-y:auto;
+}
+.splunk-timeline svg {
+  box-sizing:border-box;
+}

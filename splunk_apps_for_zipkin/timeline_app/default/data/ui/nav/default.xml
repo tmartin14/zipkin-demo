@@ -1,0 +1,4 @@
+<nav search_view="search" color="#67B5D9">
+  <view name="timeline_gallery" default="true" />
+  <view name="dashboards" />
+</nav>

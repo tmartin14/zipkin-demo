@@ -1,0 +1,289 @@
+<form>
+  <init>
+    <set token="hideTraceDetail">true</set>
+  </init>
+  <label>Zipkin Overview</label>
+  <search id="all_traces">
+    <query>traceId=* | `format_traces`</query>
+    <earliest>$myTime.earliest$</earliest>
+    <latest>$myTime.latest$</latest>
+    <refresh>$refresh_token$</refresh>
+    <refreshType>delay</refreshType>
+  </search>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="myTime" searchWhenChanged="true">
+      <label>Time Period</label>
+      <default>
+        <earliest>-60m@m</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="text" token="searchText" searchWhenChanged="true">
+      <label>Find Traces including:</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <html>
+        <style> 
+          .panel-body.html { color: white; background: #297ba5 !important;  text-align: center } 
+          .html h2 { color:white; background: #297ba5 !important;  text-align: center }
+        </style>
+        <h2>Service Topology Maps</h2>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <viz type="jointjs_diagram_app.jointjs_diagram">
+        <title>Transaction Dependency Map</title>
+        <search base="all_traces">
+          <query>| search parentId != ""
+| stats values(url) as targetUrl, values(from) as source, values(to) as target by id
+| eval  link="calls"
+| table source target link</query>
+        </search>
+        <option name="refresh.display">progressbar</option>
+      </viz>
+    </panel>
+    <panel>
+      <viz type="network_topology.network_topology">
+        <title>Transaction Dependency Map (includes all traces)</title>
+        <search base="all_traces">
+          <query>| search parentId !=""
+| stats values(url) as targetUrl, values(from) as source, values(to) as target by id
+| eval  source2 =source, target2=target, link="calls"
+| table source source2 target target2 link</query>
+        </search>
+        <option name="drilldown">all</option>
+        <option name="height">357</option>
+        <option name="network_topology.network_topology.drilldown">true</option>
+        <option name="network_topology.network_topology.link1">calls</option>
+        <option name="network_topology.network_topology.link1Color">#ffc000</option>
+        <option name="network_topology.network_topology.link1Dashed">false</option>
+        <option name="network_topology.network_topology.link1Label">Calls</option>
+        <option name="network_topology.network_topology.link2">sr</option>
+        <option name="network_topology.network_topology.link2Color">#00b050</option>
+        <option name="network_topology.network_topology.link2Dashed">true</option>
+        <option name="network_topology.network_topology.link2Label">Server Recieve</option>
+        <option name="network_topology.network_topology.link3">link3</option>
+        <option name="network_topology.network_topology.link3Color">#a5a5a5</option>
+        <option name="network_topology.network_topology.link3Dashed">false</option>
+        <option name="network_topology.network_topology.link3Label">Link 3</option>
+        <option name="network_topology.network_topology.link4">link4</option>
+        <option name="network_topology.network_topology.link4Color">#a5a5a5</option>
+        <option name="network_topology.network_topology.link4Dashed">true</option>
+        <option name="network_topology.network_topology.link4Label">Link 4</option>
+        <option name="network_topology.network_topology.link5">link5</option>
+        <option name="network_topology.network_topology.link5Color">#c00000</option>
+        <option name="network_topology.network_topology.link5Dashed">false</option>
+        <option name="network_topology.network_topology.link5Label">Link 5</option>
+        <option name="network_topology.network_topology.unfocusOpacity">0</option>
+        <option name="refresh.display">progressbar</option>
+      </viz>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+        <h2>Service Performance Metrics</h2>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Overall Response Time of All Traced Services</title>
+      <chart>
+        <title>zipkin.service.duration_ms</title>
+        <search>
+          <query>| mstats avg(_value) prestats=true WHERE metric_name="zipkin.service.duration_ms" AND "index"="zipkinmetrics" span=1m
+| timechart avg(_value) as "Avg" span=1m</query>
+          <earliest>$myTime.earliest$</earliest>
+          <latest>$myTime.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">auto</option>
+        <option name="charting.axisY.includeZero">1</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.fieldColors">{"Avg":"#a65c7d"}</option>
+        <option name="charting.gridLinesX.showMajorLines">1</option>
+        <option name="charting.legend.mode">seriesCompare</option>
+        <option name="displayview">analysis_workspace</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Response Times by Service</title>
+      <chart>
+        <title>zipkin.service.duration_ms by serviceName</title>
+        <search>
+          <query>| mstats avg(_value) prestats=true WHERE metric_name="zipkin.service.duration_ms" AND "index"="zipkinmetrics" span=1m BY "serviceName" 
+| timechart avg(_value) as "Avg" agg=max limit=5 useother=false span=1m BY "serviceName"</query>
+          <earliest>$myTime.earliest$</earliest>
+          <latest>$myTime.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">auto</option>
+        <option name="charting.axisY.includeZero">1</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.fieldColors">{"3rdparty":"#1e93c6","backend":"#f2b827","frontend":"#d6563c","magical":"#6a5c9e","thirdparty":"#31a35f"}</option>
+        <option name="charting.gridLinesX.showMajorLines">1</option>
+        <option name="charting.legend.mode">seriesCompare</option>
+        <option name="displayview">analysis_workspace</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Request Counts by Service</title>
+      <chart>
+        <title>zipkin.service.count by serviceName</title>
+        <search>
+          <query>| mstats avg(_value) prestats=true WHERE metric_name="zipkin.service.count" AND "index"="zipkinmetrics" span=1m BY "serviceName" 
+| timechart avg(_value) as "Avg" agg=max limit=5 useother=false span=1m BY "serviceName"</query>
+          <earliest>$myTime.earliest$</earliest>
+          <latest>$myTime.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">auto</option>
+        <option name="charting.axisY.includeZero">1</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.fieldColors">{"3rdparty":"#1e93c6","backend":"#f2b827","frontend":"#d6563c","magical":"#6a5c9e","thirdparty":"#31a35f"}</option>
+        <option name="charting.gridLinesX.showMajorLines">1</option>
+        <option name="charting.legend.mode">seriesCompare</option>
+        <option name="displayview">analysis_workspace</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+        <h2>Individual User Traces</h2>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>10 Slowest End User Traces (ms)</title>
+        <search base="all_traces">
+          <query>| search url="*8081*" *$searchText$* 
+| chart max(duration_ms) as duration_ms over traceId by url 
+| addtotals
+| sort Total desc
+| fields - Total
+| head 10</query>
+          <refresh>$refresh_token$</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.overlayFields">Spans</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="refresh.display">progressbar</option>
+        <drilldown>
+          <set token="traceid">$row.traceId$</set>
+          <unset token="hideTraceDetail"></unset>
+        </drilldown>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>10 Slowest Backend Traces (ms)</title>
+        <search base="all_traces">
+          <query>| search parentId != ""  *$searchText$* 
+| chart max(duration_ms) as duration_ms over traceId by url 
+| addtotals
+| sort Total desc
+| fields - Total
+| head 10</query>
+          <refresh>$refresh_token$</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.overlayFields">Spans</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="refresh.display">progressbar</option>
+        <drilldown>
+          <set token="traceid">$row.traceId$</set>
+          <unset token="hideTraceDetail"></unset>
+        </drilldown>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$hideTraceDetail$">
+      <html>
+        <center>
+          <h2>Select a trace above to see the timline here</h2>
+        </center>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$traceid$">
+      <viz type="timeline_app.timeline">
+        <title>Trace Details (ms) for ID: $traceid$</title>
+        <search base="all_traces">
+          <query>| search traceId=$traceid$
+| table start serviceName url duration_ms parentId traceId id spanType serviceName start end duration_ms ipv4 url status_code serviceStartType serviceEndType
+| sort traceId start parentId -spanType</query>
+        </search>
+        <option name="refresh.display">progressbar</option>
+        <option name="timeline_app.timeline.axisTimeFormat">SUBSECONDS</option>
+        <option name="timeline_app.timeline.colorMode">categorical</option>
+        <option name="timeline_app.timeline.maxColor">#DA5C5C</option>
+        <option name="timeline_app.timeline.minColor">#FFE8E8</option>
+        <option name="timeline_app.timeline.numOfBins">6</option>
+        <option name="timeline_app.timeline.tooltipTimeFormat">SUBSECONDS</option>
+        <option name="timeline_app.timeline.useColors">1</option>
+      </viz>
+    </panel>
+  </row>
+</form>

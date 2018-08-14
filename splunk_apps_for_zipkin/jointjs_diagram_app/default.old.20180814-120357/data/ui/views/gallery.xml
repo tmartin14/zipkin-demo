@@ -1,0 +1,88 @@
+<form>
+  <label>JointJS Diagram Gallery</label>
+  <fieldset submitButton="false"></fieldset>
+  <row>
+    <panel>
+      <title>Simple diagram</title>
+      <viz type="jointjs_diagram_app.jointjs_diagram">
+        <title>Token Drilldown</title>
+        <search id="search1">
+          <query>| inputlookup jointjs_data.csv</query>
+          <earliest></earliest>
+          <latest></latest>
+        </search>
+        <option name="height">236</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.colorMode">categorical</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.drilldown.behaviour">search</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.drilldownBehavior">token</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.drilldownBehaviour">search</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.drilldownToken">toktok</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.drilldownValue">node</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.errColor">#d93f3c</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.maxColor">#d93f3c</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.minColor">#3fc77a</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.numOfBins">6</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.okColor">#3fc77a</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.useColors">false</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.warnColor">#d93f3c</option>
+      </viz>
+    </panel>
+    <panel>
+      <title>Simple diagram with sequential coloring</title>
+      <viz type="jointjs_diagram_app.jointjs_diagram">
+        <title>Workflow-Action Drilldown</title>
+        <search>
+          <query>| inputlookup jointjs_data.csv</query>
+          <earliest></earliest>
+          <latest></latest>
+        </search>
+        <option name="height">236</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.colorMode">sequential</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.drilldownBehavior">workflow</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.drilldownValue">node</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.errColor">#d93f3c</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.maxColor">#d93f3c</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.minColor">#3fc77a</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.numOfBins">6</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.okColor">#3fc77a</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.useColors">true</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.warnColor">#f58f39</option>
+      </viz>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Simple diagram with "success", "warning" and "error" categories</title>
+      <input type="dropdown" token="toktok" searchWhenChanged="true">
+        <label>Main Node</label>
+        <default>one</default>
+        <initialValue>one</initialValue>
+        <search>
+          <query>| inputlookup jointjs_data.csv | eval nodes=split(from.",".to, ",") | fields nodes | stats values(nodes) as nodes | mvexpand nodes</query>
+        </search>
+        <fieldForLabel>nodes</fieldForLabel>
+        <fieldForValue>nodes</fieldForValue>
+      </input>
+      <viz type="jointjs_diagram_app.jointjs_diagram">
+        <title>No Drilldown</title>
+        <search>
+          <query>| inputlookup jointjs_data.csv | rangemap field=value success=0-42 warning=43-126 default=error | table from to range | eval from=if(from=="one", "$toktok$", from) | fillnull value="null" | where from != to</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="height">222</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.colorMode">categorical</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.drilldownBehavior">none</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.drilldownValue">node</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.errColor">#d93f3c</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.maxColor">#3fc77a</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.minColor">#d93f3c</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.numOfBins">6</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.okColor">#3fc77a</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.useColors">true</option>
+        <option name="jointjs_diagram_app.jointjs_diagram.warnColor">#f58f39</option>
+      </viz>
+    </panel>
+  </row>
+</form>

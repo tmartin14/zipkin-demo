@@ -1,0 +1,58 @@
+<dashboard>
+  <label>Timeline Gallery</label>
+  <row>
+    <panel>
+      <title>Default Color</title>
+      <viz type="timeline_app.timeline">
+        <search>
+          <query>| inputlookup outages.csv | where Year = 2006 | head 20 | rename "Date Event Began" AS start_date   | rename "Date of Restoration" AS end_date   | rename "Time Event Began" AS start_time   | rename "Time of Restoration" AS end_time   | eval _time = strptime(start_date." ".start_time, "%m/%d/%Y %H:%M %p") | eval end_time = strptime(end_date." ".end_time, "%m/%d/%Y %H:%M %p") | eval duration = (end_time - _time) * 1000 * (random()%5) | eval duration = IF(duration &lt; 86400000, 0, duration) | stats count by _time, duration, "NERC Region", "Event Description" | table _time "NERC Region" duration</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="timeline_app.timeline.useColors">0</option>
+        <option name="timeline_app.timeline.colorMode">categorical</option>
+        <option name="timeline_app.timeline.numOfBins">6</option>
+        <option name="timeline_app.timeline.maxColor">#DA5C5C</option>
+        <option name="timeline_app.timeline.minColor">#FFE8E8</option>
+        <option name="timeline_app.timeline.axisTimeFormat">DAYS</option>
+        <option name="timeline_app.timeline.tooltipTimeFormat">DAYS</option>
+      </viz>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Categorical Colors</title>
+      <viz type="timeline_app.timeline">
+        <search>
+          <query>| inputlookup outages.csv | where Year = 2006 | head 20 | rename "Date Event Began" AS start_date   | rename "Date of Restoration" AS end_date   | rename "Time Event Began" AS start_time   | rename "Time of Restoration" AS end_time   | eval _time = strptime(start_date." ".start_time, "%m/%d/%Y %H:%M %p") | eval end_time = strptime(end_date." ".end_time, "%m/%d/%Y %H:%M %p") | eval duration = (end_time - _time) * 1000 * (random()%5) | eval duration = IF(duration &lt; 86400000, 0, duration) | stats count by _time, duration, "NERC Region", "Event Description" | table _time "NERC Region" "Event Description" duration</query>
+        </search>
+        <option name="timeline_app.timeline.useColors">1</option>
+        <option name="timeline_app.timeline.colorMode">categorical</option>
+        <option name="timeline_app.timeline.maxColor">#DA5C5C</option>
+        <option name="timeline_app.timeline.minColor">#FFE8E8</option>
+        <option name="timeline_app.timeline.axisTimeFormat">DAYS</option>
+        <option name="timeline_app.timeline.tooltipTimeFormat">DAYS</option>
+        <option name="timeline_app.timeline.numOfBins">6</option>
+      </viz>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Sequential Colors</title>
+      <viz type="timeline_app.timeline">
+        <search>
+          <query>| inputlookup outages.csv | where Year = 2006 | tail 20 | rename "Date Event Began" AS start_date   | rename "Date of Restoration" AS end_date   | rename "Time Event Began" AS start_time   | rename "Time of Restoration" AS end_time   | eval _time = strptime(start_date." ".start_time, "%m/%d/%Y %H:%M %p") | eval end_time = strptime(end_date." ".end_time, "%m/%d/%Y %H:%M %p")  | eval duration = (end_time - _time) * 1000 * (random()%5) | eval duration = IF(duration &lt; 86400000, 0, duration) | stats count by _time, duration, "NERC Region", "Number of Customers Affected" | rename "Number of Customers Affected" as num_affected | eval num_affected = abs(num_affected) | table _time "NERC Region" num_affected duration | fillnull value=0</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="timeline_app.timeline.useColors">1</option>
+        <option name="timeline_app.timeline.colorMode">sequencial</option>
+        <option name="timeline_app.timeline.maxColor">#d93f3c</option>
+        <option name="timeline_app.timeline.minColor">#f7bc38</option>
+        <option name="timeline_app.timeline.axisTimeFormat">DAYS</option>
+        <option name="timeline_app.timeline.tooltipTimeFormat">DAYS</option>
+        <option name="timeline_app.timeline.numOfBins">6</option>
+      </viz>
+    </panel>
+  </row>
+</dashboard>

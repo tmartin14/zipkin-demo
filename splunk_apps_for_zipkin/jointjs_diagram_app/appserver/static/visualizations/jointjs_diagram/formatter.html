@@ -1,0 +1,99 @@
+<form class="splunk-formatter-section" section-label="Layout">
+    <splunk-control-group label="Graph direction">
+        <splunk-radio-input name="{{VIZ_NAMESPACE}}.direction" value="TB">
+            <option value="TB">Vertical</option>
+            <option value="LR">Horizontal</option>
+        </splunk-radio-input>
+    </splunk-control-group>
+    <splunk-control-group label="Automatic height">
+        <splunk-radio-input name="{{VIZ_NAMESPACE}}.useAutoHeight" value="true">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </splunk-radio-input>
+    </splunk-control-group>
+</form>
+<form class="splunk-formatter-section" section-label="Color">
+    <splunk-control-group label="Use colors">
+        <splunk-radio-input name="{{VIZ_NAMESPACE}}.useColors" value="true">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </splunk-radio-input>
+    </splunk-control-group>
+    <splunk-control-group label="Color mode">
+        <splunk-select name="{{VIZ_NAMESPACE}}.colorMode" value="categorical">
+            <option value="categorical">Categorical</option>
+            <option value="sequential">Sequential</option>
+        </splunk-select>
+    </splunk-control-group>
+    <div>
+        <span style="display: block; margin: 15px 0px 15px 20px; font-size: 85%; color: #999;">
+            Categorical mode settings
+        </span>
+    </div>
+    <splunk-control-group label="Success">
+        <splunk-color-picker name="{{VIZ_NAMESPACE}}.okColor" value="#3fc77a"></splunk-color-picker>
+    </splunk-control-group>
+    <splunk-control-group label="Warning">
+        <splunk-color-picker name="{{VIZ_NAMESPACE}}.warnColor" value="#f58f39"></splunk-color-picker>
+    </splunk-control-group>
+    <splunk-control-group label="Error">
+        <splunk-color-picker name="{{VIZ_NAMESPACE}}.errColor" value="#d93f3c"></splunk-color-picker>
+    </splunk-control-group>
+    <div>
+        <span style="display: block; margin: 15px 0px 15px 20px; font-size: 85%; color: #999;">
+            Sequential mode settings
+        </span>
+    </div>
+    <splunk-control-group label="Min color">
+        <splunk-color-picker name="{{VIZ_NAMESPACE}}.minColor" value="#3fc77a"></splunk-color-picker>
+    </splunk-control-group>
+    <splunk-control-group label="Max color">
+        <splunk-color-picker name="{{VIZ_NAMESPACE}}.maxColor" value="#d93f3c"></splunk-color-picker>
+    </splunk-control-group>
+    <splunk-control-group label="Number of bins">
+        <splunk-select name="{{VIZ_NAMESPACE}}.numOfBins" value="6">
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+        </splunk-select>
+    </splunk-control-group>
+</form>
+<form class="splunk-formatter-section" section-label="Drilldown">
+    <splunk-control-group label="Behavior">
+        <splunk-select name="{{VIZ_NAMESPACE}}.drilldownBehavior" value="none">
+            <option value="none">None</option>
+            <option value="workflow">Workflow Actions</option>
+            <option value="search">Search</option>
+            <option value="token">Token</option>
+        </splunk-select>
+    </splunk-control-group>
+    <div>
+        <span style="display: block; margin: 15px 0px 15px 20px; font-size: 85%; color: #999;">
+          Options
+        </span>
+    </div>
+    <splunk-control-group label="Drilldown value">
+        <splunk-select name="{{VIZ_NAMESPACE}}.drilldownValue" value="node">
+            <option value="node">Node Name</option>
+            <option value="value">Node Value</option>
+        </splunk-select>
+    </splunk-control-group>
+    <splunk-control-group label="Token name">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.drilldownToken" />
+    </splunk-control-group>
+</form>
+<form class="splunk-formatter-section" section-label="Scale">
+    <splunk-control-group label="Scale between 0.0 and 2.0">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.scale" value="1.0" />
+    </splunk-control-group>
+    <splunk-control-group label="Enable zoom mouse scrolling">
+        <splunk-radio-input name="{{VIZ_NAMESPACE}}.useMouseScale" value="false">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </splunk-radio-input>
+    </splunk-control-group>
+</form>

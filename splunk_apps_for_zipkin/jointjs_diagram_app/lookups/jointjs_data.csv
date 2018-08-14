@@ -1,0 +1,6 @@
+from,to,value
+one,two,42
+one,three,42
+one,four,42
+four,five,126
+two,,252

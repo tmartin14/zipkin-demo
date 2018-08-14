@@ -1,0 +1,69 @@
+<dashboard>
+  <label>Example Topology</label>
+  <row>
+    <panel>
+      <html>
+        <p>Notes</p>
+        <ul>
+          <li>5 columns are required, including the source host, source role, target host, target role, and link type</li>
+          <li>Assign styles for up to 5 different link types by using the Formatter, and setting a Field value to each distinct link type from the search results</li>
+          <li>Toggle drilldown, transparency level of out of focus nodes/links, and link styles in the Formatter</li>
+          <li>Click on legend boxes to switch between showing only selected link type or all links</li>
+          <li>Hover over a node to focus on 1st degree connections</li>
+          <li>Click on the bottom label of a node to activate drilldown</li>
+          <li>Select nodes by host name, or role to highlight them</li>
+        </ul>
+      </html>
+      <title>Splunk Deployment</title>
+      <viz type="network_topology.network_topology">
+        <search>
+          <query>| inputlookup deployment.csv | table sourceHost sourceRole targetHost targetRole linkType</query>
+          <earliest>-24h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="network_topology.network_topology.drilldown">true</option>
+        <option name="network_topology.network_topology.link1">search</option>
+        <option name="network_topology.network_topology.link1Color">#f7bc38</option>
+        <option name="network_topology.network_topology.link1Dashed">false</option>
+        <option name="network_topology.network_topology.link1Label">Search (Head to Peer)</option>
+        <option name="network_topology.network_topology.link2">licensing</option>
+        <option name="network_topology.network_topology.link2Color">#00b050</option>
+        <option name="network_topology.network_topology.link2Dashed">true</option>
+        <option name="network_topology.network_topology.link2Label">Licensing (Slave to Master)</option>
+        <option name="network_topology.network_topology.link3">clustering</option>
+        <option name="network_topology.network_topology.link3Color">#cccccc</option>
+        <option name="network_topology.network_topology.link3Dashed">true</option>
+        <option name="network_topology.network_topology.link3Label">Clustering (Member to Master)</option>
+        <option name="network_topology.network_topology.link4">link4</option>
+        <option name="network_topology.network_topology.link4Color">#00b050</option>
+        <option name="network_topology.network_topology.link4Dashed">false</option>
+        <option name="network_topology.network_topology.link4Label">Link 4</option>
+        <option name="network_topology.network_topology.link5">link5</option>
+        <option name="network_topology.network_topology.link5Color">#cccccc</option>
+        <option name="network_topology.network_topology.link5Dashed">false</option>
+        <option name="network_topology.network_topology.link5Label">Link 5</option>
+        <option name="network_topology.network_topology.unfocusOpacity">0</option>
+        <option name="height">800</option>
+        <drilldown>
+          <condition field="node">
+            <set token="node">$row.node$</set>
+          </condition>
+        </drilldown>
+      </viz>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Drilldown</title>
+      <single>
+        <title>Selected Node (click on bottom label of node)</title>
+        <search>
+          <query>| makeresults | eval node="$node$" | fields node</query>
+          <earliest>-24h</earliest>
+          <latest>now</latest>
+        </search>
+      </single>
+    </panel>
+  </row>
+</dashboard>
