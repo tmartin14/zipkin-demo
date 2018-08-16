@@ -7,6 +7,8 @@ const { HttpLogger }    = require('zipkin-transport-http');
 // ------------------------------------------------------------------------
 // Where to send the data
 var splunk_URL = 'http://localhost:8088/services/collector/raw';
+//var splunk_URL = 'http://i-08c76ff2c613972dc.ec2.splunkit.io:8088/services/collector/raw';
+
 var splunk_hec_token = '00000000-0000-0000-0000-000000000002';
 
 const recorder = new BatchRecorder({
