@@ -28,7 +28,7 @@ Before you start anything, you'll need to install the required node modules used
 ```bash
 $ npm install
 ```
-Next, set 2 environment variables to point to your Splunk instance.  These are used in the [recorder.js](./recorder.js) file.
+Next, set 2 environment variables to point to your Splunk instance.  These are used in the [recorder.js](./sample_app/recorder.js) file.
 ```
 export RECORDER_URL=http://localhost:8088/services/collector/raw
 export RECORDER_AUTH='Splunk XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
@@ -43,10 +43,10 @@ $ npm run browserify
 
 ## Start the Services
 Run `npm start`.  This will start all 4 services:  
-1. [frontend.js](./frontend.js) 
-2. [backend.js](./backend.js)
-3. [thirdparty.js](./thirdparty.js)
-4. [magical.js](./magical.js)
+1. [frontend.js](./sample_app/frontend.js)
+2. [backend.js](./sample_app/backend.js)
+3. [thirdparty.js](./sample_app/thirdparty.js)
+4. [magical.js](./sample_app/magical.js)
 
 ```bash
 $ npm start
