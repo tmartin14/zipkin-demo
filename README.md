@@ -7,11 +7,10 @@ The demo application includes a static web page and three node.js express servic
 Here's an example of what it looks like
 <img width="972" alt="zipkin screen shot" src="./ZipkinOverview.png">
 
-# Implementation Overview
+# Application Overview
 
 Web requests are served by [Express](http://expressjs.com/) controllers, and tracing is automatically performed by [zipkin-js](https://github.com/openzipkin/zipkin-js). JavaScript used in the web browser is bundled with [browserify](http://browserify.org/).
 
-# Running the example
 This example has four services: frontend, thirdparty, backend and magical. Each service reports Zipkin trace data to Splunk. To setup the demo, you need to start the application (npm start) and Splunk Enterprise. You'll also need to bundle the JavaScript used by the web browser.
 
 Once the services are started, and the JavaScript is bundled, `open index.html`
@@ -22,9 +21,21 @@ You will want to add the splunk_apps_for_zipkin to your Splunk instance in the /
 
 Next, you can view traces that went through the backend via http://<splunk_server>/en-US/app/zipkin/zipkin_overview
 
-## Setup
+## Quick Start
 
-Before you start anything, you'll need to install the required node modules used in this demo:
+If you have Docker installed you can run this example in a few simple steps:
+1. Clone or Download this repo
+2. Start Docker
+3. Start Splunk:   [run_splunk.sh](./run_splunk.sh)
+4. Start the sample app:  [run_app.sh](./run_app.sh)
+5. Test the app:  http://localhost:8081
+6. View your traces:  http://localhost:8000/en-US/app/zipkin/zipkin_overview
+
+## Detailed Setup Instructions
+
+Start by Cloning or downloading this repo.
+
+Next, you'll need to install the required node modules used in this demo:
 ```bash
 $ npm install
 ```
@@ -35,8 +46,7 @@ export RECORDER_AUTH='Splunk XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
 ```
 Note:  This project includes shell scripts with examples for both Zipkin backend as well as Splunk as the backend.  See the run_app_xxx.sh files for more details.
 
-
-Once that's done, bundle the JavaScript used by the browser:
+With your environment variables set, bundle the JavaScript used by the browser:
 ```bash
 $ npm run browserify
 ```
@@ -51,7 +61,7 @@ Run `npm start`.  This will start all 4 services:
 ```bash
 $ npm start
 ```
-## Execute the service
+## Exercise the Application & View the Traces
 Open a web browser and hit http://localhost:8081/ a few times
 
 Open another web browser and view the traces in Splunk: http://localhost:8000/en-US/app/zipkin/zipkin_overview
