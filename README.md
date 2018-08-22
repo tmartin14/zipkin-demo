@@ -33,7 +33,7 @@ Next, set 2 environment variables to point to your Splunk instance.  These are u
 export RECORDER_URL=http://localhost:8088/services/collector/raw
 export RECORDER_AUTH='Splunk XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
 ```
-Note:  This project includes shell scripts with examples for both Zipkin backend as well as Splunk as the backend.  See teh run_app_xxx.sh files for more details.
+Note:  This project includes shell scripts with examples for both Zipkin backend as well as Splunk as the backend.  See the run_app_xxx.sh files for more details.
 
 
 Once that's done, bundle the JavaScript used by the browser:
@@ -53,5 +53,6 @@ $ npm start
 ```
 ## Execute the service
 Open a web browser and hit http://localhost:8081/ a few times
+
 Open another web browser and view the traces in Splunk: http://localhost:8000/en-US/app/zipkin/zipkin_overview
 
