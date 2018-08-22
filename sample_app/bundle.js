@@ -2411,6 +2411,7 @@ var CountingSampler = function (_Sampler) {
 
 module.exports = { Sampler: Sampler, CountingSampler: CountingSampler, neverSample: neverSample, alwaysSample: alwaysSample };
 },{"../option":22}],31:[function(require,module,exports){
+(function (process){
 /* eslint-env browser */
 const {	BatchRecorder } = require('zipkin');
 const { HttpLogger }    = require('zipkin-transport-http');
@@ -2418,22 +2419,26 @@ const { HttpLogger }    = require('zipkin-transport-http');
 // ------------------------------------------------------------------------
 //    Zipkin data recorder for Splunk
 // ------------------------------------------------------------------------
-// Where to send the data
-//var splunk_protocol  = 'http';
-var splunk_host_port = 'http://localhost:8088';
+// Where to send the data  - these can be passed in environment variables or defaulted to Splunk on localhost
+const RECORDER_URL  = process.env.RECORDER_URL  || 'http://localhost:8088/services/collector/raw';
+const RECORDER_AUTH = process.env.RECORDER_AUTH || 'Splunk 00000000-0000-0000-0000-000000000002';
+
+var splunk_URL = 'http://localhost:8088/services/collector/raw';
+//var splunk_URL = 'http://i-08c76ff2c613972dc.ec2.splunkit.io:8088/services/collector/raw';
+
 var splunk_hec_token = '00000000-0000-0000-0000-000000000002';
 
-var splunk_URL = splunk_host_port + '/services/collector/raw';
-
-//console.log("Sending traces to: " + splunk_URL );
 const recorder = new BatchRecorder({
   logger: new HttpLogger({
-      endpoint: splunk_URL,
-      headers: {'Authorization': 'Splunk ' + splunk_hec_token },
+      endpoint: RECORDER_URL,
+      headers: {'Authorization': RECORDER_AUTH },
    })
 });
 
 module.exports.recorder = recorder;
 
+//mattymo info:
+//var splunk_hec_token = 'a53d0717-4d44-4c3e-9501-e2c660cd4604';
 
-},{"zipkin":16,"zipkin-transport-http":9}]},{},[1]);
+}).call(this,require('_process'))
+},{"_process":5,"zipkin":16,"zipkin-transport-http":9}]},{},[1]);

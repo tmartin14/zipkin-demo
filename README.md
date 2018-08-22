@@ -24,15 +24,17 @@ Next, you can view traces that went through the backend via http://<splunk_serve
 
 ## Setup
 
-Before you start anything, you'll need to download the libraries used in this demo:
+Before you start anything, you'll need to install the required node modules used in this demo:
 ```bash
 $ npm install
 ```
-Edit the recorder.js file to point to your Splunk instance:
+Next, set 2 environment variables to point to your Splunk instance.  These are used in the [recorder.js](./recorder.js) file.
 ```
-var splunk_URL = 'http://localhost:8088/services/collector/raw';
-var splunk_hec_token = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
+export RECORDER_URL=http://localhost:8088/services/collector/raw
+export RECORDER_AUTH='Splunk XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
 ```
+Note:  This project includes shell scripts with examples for both Zipkin backend as well as Splunk as the backend.  See teh run_app_xxx.sh files for more details.
+
 
 Once that's done, bundle the JavaScript used by the browser:
 ```bash
@@ -50,5 +52,6 @@ Run `npm start`.  This will start all 4 services:
 $ npm start
 ```
 ## Execute the service
-Open a web browser and hit http://localhost:8081/
+Open a web browser and hit http://localhost:8081/ a few times
+Open another web browser and view the traces in Splunk: http://localhost:8000/en-US/app/zipkin/zipkin_overview
 

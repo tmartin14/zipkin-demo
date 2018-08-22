@@ -33,3 +33,10 @@ export = system
 [viewstates]
 access = read : [ * ], write : [ * ]
 export = system
+
+[macros/format_traces]
+access = read : [ * ], write : [ admin, power ]
+export = system
+owner = nobody
+version = 7.1.2
+modtime = 1534958309.447818000
