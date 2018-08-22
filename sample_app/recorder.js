@@ -5,14 +5,10 @@ const { HttpLogger }    = require('zipkin-transport-http');
 // ------------------------------------------------------------------------
 //    Zipkin data recorder for Splunk
 // ------------------------------------------------------------------------
-// Where to send the data  - these can be passed in environment variables or defaulted to Splunk on localhost
+// Where to send the Zipkin trace data?
+//    These can be passed in environment variables or by default we'll send to Splunk on localhost
 const RECORDER_URL  = process.env.RECORDER_URL  || 'http://localhost:8088/services/collector/raw';
 const RECORDER_AUTH = process.env.RECORDER_AUTH || 'Splunk 00000000-0000-0000-0000-000000000002';
-
-var splunk_URL = 'http://localhost:8088/services/collector/raw';
-//var splunk_URL = 'http://i-08c76ff2c613972dc.ec2.splunkit.io:8088/services/collector/raw';
-
-var splunk_hec_token = '00000000-0000-0000-0000-000000000002';
 
 const recorder = new BatchRecorder({
   logger: new HttpLogger({
@@ -23,5 +19,3 @@ const recorder = new BatchRecorder({
 
 module.exports.recorder = recorder;
 
-//mattymo info:
-//var splunk_hec_token = 'a53d0717-4d44-4c3e-9501-e2c660cd4604';
