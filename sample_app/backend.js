@@ -1,15 +1,18 @@
 /* eslint-disable import/newline-after-import */
-// initialize tracer
+// general variables
 const rest = require('rest');
 const express = require('express');
-const CLSContext = require('zipkin-context-cls');
-const {Tracer} = require('zipkin');
+const app = express();
+const sleep = require('sleep'); 
 const {recorder} = require('./recorder');
 
+
+// initialize tracer
+const CLSContext = require('zipkin-context-cls');
+const {Tracer} = require('zipkin');
 const ctxImpl = new CLSContext('zipkin');
 const tracer = new Tracer({ctxImpl, recorder});
 
-const app = express();
 
 // instrument the server
 const zipkinMiddleware = require('zipkin-instrumentation-express').expressMiddleware;
@@ -27,15 +30,17 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', [
     'Origin', 'Accept', 'X-Requested-With', 'X-B3-TraceId',
-    'X-B3-ParentSpanId', 'X-B3-SpanId', 'X-B3-Sampled'
+    'X-B3-ParentSpanId', 'X-B3-SpanId', 'X-B3-Sampled',
+    'Content-Type', 'Authorization'
   ].join(', '));
   next();
 });
 
-//app.get('/api', (req, res) => res.send(new Date().toString()));
+
 app.get('/backend', (req, res) => {
   zipkinRest('http://localhost:9002/magical?minute=' + encodeURIComponent(new Date().getMinutes().toString()) )
-    .then(response => res.send(response.entity))
+    .then( sleep.sleep(1) )
+      .then(response => res.send(response.entity))
   .catch(err => console.error('Error', err.stack));
 });
 

@@ -19,7 +19,7 @@ app.use(zipkinMiddleware({
 }));
 
 app.get('/3rdParty', (req, res) => {
-	//sleep.sleep(2);
+	sleep.sleep(1);
 	res.send("Executed at <b>" + new Date().getMinutes().toString() + "</b> minutes after the hour");
 });
 

@@ -4,10 +4,8 @@ const rest = require('rest');
 const express = require('express');
 const app = express();
 const sleep = require('sleep'); 
-
-
-// Create an instance of the Splunk recorder 
 const {recorder} = require('./recorder');
+
 
 // initialize tracer
 const CLSContext = require('zipkin-context-cls');
@@ -38,15 +36,16 @@ app.use((req, res, next) => {
   next();
 });
 
+
 app.get('/', (req, res) => {
   zipkinRest('http://localhost:9000/backend')
+    //.then(sleep.sleep(1))
       .then(zipkinRest('http://localhost:9001/3rdParty'))
+        .then(sleep.sleep(1))
           .then(response => res.send(response.entity))
-            //.then(sleep.sleep(4))
   .catch(err => console.error('Error', err.stack));
 });
 
-//        .then(sleep.sleep(2))
 
 app.listen(8081, () => {
   console.log('Frontend listening on port 8081!');
