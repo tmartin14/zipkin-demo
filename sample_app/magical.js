@@ -19,7 +19,7 @@ app.use(zipkinMiddleware({
 }));
 
 app.get('/magical', (req, res) => {
-	sleep.sleep(2)
+	sleep.sleep(Math.floor(Math.random() * 4)+1 )
 	res.send("<h1>It's not magic, It's <span style='color: #339966;'><b>Splunk &gt;</b></span></h1><br>" 
 		+ "Executed at <b>" + req.query.minute  + "</b> minutes after the hour")
 });

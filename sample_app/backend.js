@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 
 app.get('/backend', (req, res) => {
   zipkinRest('http://localhost:9002/magical?minute=' + encodeURIComponent(new Date().getMinutes().toString()) )
-    .then( sleep.sleep(1) )
+    .then( sleep.sleep(Math.floor(Math.random() * 2)+1) )
       .then(response => res.send(response.entity))
   .catch(err => console.error('Error', err.stack));
 });
