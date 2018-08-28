@@ -1,8 +1,8 @@
 {
-  "name": "zipkin-js-example",
+  "name": "zipkin-demo",
   "version": "0.0.1",
-  "description": "Example project that shows how to use zipkin with javascript",
-  "repository": "https://github.com/openzipkin/zipkin-js",
+  "description": "Example project that shows how to use zipkin with javascript & Splunk",
+  "repository": "https://github.com/tmartin14/zipkin-demo",
   "scripts": {
     "lint": "eslint .",
     "start": "node servers.js",
