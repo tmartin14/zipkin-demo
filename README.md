@@ -25,9 +25,15 @@ Next, you can view traces that went through the backend via http://<splunk_serve
 
 If you have Docker installed you can run this example in a few simple steps:
 1. Clone or Download this repo
-2. Start Docker
-3. Start Splunk:   [run_splunk.sh](./run_splunk.sh)
-4. Start the sample app:  [run_app.sh](./run_app.sh)
+2. Start the sample App:   [run_app.sh](./run_app.sh)
+   ```bash
+   $ ./run_app.sh
+   ```
+3. Start Docker
+4. Start the Splunk container:   [run_splunk.sh](./run_splunk.sh)
+   ```bash
+   $ ./run_splunk.sh
+   ```
 5. Test the app:  http://localhost:8081
 6. View your traces:  http://localhost:8000/en-US/app/zipkin/zipkin_overview
 
